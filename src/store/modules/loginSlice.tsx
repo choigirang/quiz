@@ -1,20 +1,16 @@
 import { PayloadAction, createSlice } from '@reduxjs/toolkit';
+import { LoginData } from '../../type/login';
 
-type Login = {
-  id: string;
-  code: number;
-};
-
-const initialState: Login = {
+const initialState: LoginData = {
   id: '',
-  code: 0,
+  code: '',
 };
 
 export const loginSlice = createSlice({
   name: 'loginSlice',
   initialState,
   reducers: {
-    login: (state: Login, action: PayloadAction<Login>) => ({
+    login: (state: LoginData, action: PayloadAction<LoginData>) => ({
       ...state,
       ...action.payload,
     }),
