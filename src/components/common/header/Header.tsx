@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom';
 import Category from './Category';
-import { useAppSelector } from '../../../hooks/useRedux';
+import { useAppSelector } from '../../../hooks/redux/useRedux';
 
 import { UserIcon } from '@heroicons/react/24/outline';
 
@@ -12,7 +12,7 @@ export default function Header() {
     <header className='relative w-[150px] h-screen p-5 border-r'>
       {/* logo */}
       <h1 className='font-black'>
-        <Link to={'/'}>
+        <Link to={'/quiz'}>
           DEV<br></br>Quiz
         </Link>
       </h1>
