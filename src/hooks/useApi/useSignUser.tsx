@@ -2,7 +2,7 @@ import { useMutation, useQuery, useQueryClient } from 'react-query';
 import { api } from '../../utils/api/api';
 import { getDocs, doc, collection, getDoc, setDoc } from 'firebase/firestore';
 import { db } from '../../utils/api/firebase';
-import { useAppDispatch } from '../useRedux';
+import { useAppDispatch } from '../redux/useRedux';
 import { login } from '../../store/modules/loginSlice';
 
 // check user lenght
