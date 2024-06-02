@@ -6,10 +6,14 @@ import {
   configureStore,
 } from '@reduxjs/toolkit';
 import loginSlice from './modules/loginSlice';
+import selectStackSlice from './modules/quizStackSlice';
+import { quizSlice } from './modules/quizSlice';
 
 const reducer = (state: any, action: PayloadAction<any>) => {
   return combineReducers({
     loginSlice: loginSlice.reducer,
+    selectStackSlice: selectStackSlice.reducer,
+    quizSlice: quizSlice.reducer,
   })(state, action);
 };
 
