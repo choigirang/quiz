@@ -33,4 +33,5 @@ export type QuizData = {
   Q: Question;
   state: boolean;
   correct: number;
+  done: boolean;
 };
