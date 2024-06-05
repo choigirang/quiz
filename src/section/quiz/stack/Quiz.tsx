@@ -36,8 +36,12 @@ export default function Quiz() {
   }, []);
 
   return (
-    <section>
-      <Question></Question>
+    <section className='w-full flex justify-center items-center'>
+      {data ? (
+        <Question allQuiz={data} />
+      ) : (
+        <div>서버 오류로 불러온 데이터가 없습니다.</div>
+      )}
     </section>
   );
 }
