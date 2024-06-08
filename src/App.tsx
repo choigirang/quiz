@@ -12,10 +12,10 @@ function App() {
       <WithProvider>
         <Header />
         <Routes>
-          <Route path='/quiz' element={<QuizPage />}></Route>
-          <Route path='/quiz/:stack' element={<Quiz />}></Route>
-          <Route path='/all' element={<AllPage />}></Route>
-          <Route path='/chart' element={<ChartPage />}></Route>
+          <Route path='/quiz' element={<QuizPage />} />
+          <Route path='/quiz/:stack' element={<Quiz />} />
+          <Route path='/all' element={<AllPage />} />
+          <Route path='/chart/*' element={<ChartPage />} />
         </Routes>
       </WithProvider>
     </div>
