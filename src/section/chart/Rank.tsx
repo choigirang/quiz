@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
 
+import UserRank from './UserRank';
+
 import { RankData } from '../../type/quiz';
-import { useAppSelector } from '../../hooks/redux/useRedux';
-import useRankWithUser from '../../hooks/useApi/useRankWithUser';
 
 type RankProps = {
   ranking: RankData | undefined;
@@ -10,11 +10,12 @@ type RankProps = {
 
 /** 24/06/08 - Ranking page */
 export default function Rank({ ranking }: RankProps) {
+  // rank data
   const [rank, setRank] = useState<RankData>();
+  // select stack category
   const [stack, setStack] = useState<string>();
-  const user = useAppSelector((state) => state.loginSlice.id);
-  const { data } = useRankWithUser(user, Object.keys(ranking!)[0]);
 
+  //  ranking data & stack set
   useEffect(() => {
     if (ranking) {
       setRank(ranking);
@@ -53,6 +54,7 @@ export default function Rank({ ranking }: RankProps) {
             ))}
           </tr>
         </thead>
+        {/* ranking data */}
         <tbody>
           {Object.entries(rank[stack]).map(([key, value], idx) => (
             <tr key={`thead ${key}`}>
@@ -63,6 +65,8 @@ export default function Rank({ ranking }: RankProps) {
           ))}
         </tbody>
       </table>
+      {/* user rank info */}
+      <UserRank stack={stack}></UserRank>
     </React.Fragment>
   );
 }
