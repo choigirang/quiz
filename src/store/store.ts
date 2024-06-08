@@ -5,23 +5,46 @@ import {
   combineReducers,
   configureStore,
 } from '@reduxjs/toolkit';
+import {
+  persistReducer,
+  persistStore,
+  FLUSH,
+  REHYDRATE,
+  PAUSE,
+  PERSIST,
+  PURGE,
+  REGISTER,
+} from 'redux-persist';
+import storage from 'redux-persist/lib/storage';
 import loginSlice from './modules/loginSlice';
 import selectStackSlice from './modules/quizStackSlice';
-import { quizSlice } from './modules/quizSlice';
+import quizSlice from './modules/quizSlice';
 
-const reducer = (state: any, action: PayloadAction<any>) => {
-  return combineReducers({
-    loginSlice: loginSlice.reducer,
-    selectStackSlice: selectStackSlice.reducer,
-    quizSlice: quizSlice.reducer,
-  })(state, action);
+const persistConfig = {
+  key: 'root',
+  storage,
+  whitelist: ['loginSlice', 'selectStackSlice', 'quizSlice'],
 };
 
-export const store = configureStore({
-  reducer,
-  middleware: (getDefaultMiddleware) =>
-    getDefaultMiddleware({ serializableCheck: false }),
+const rootReducer = combineReducers({
+  loginSlice: loginSlice.reducer,
+  selectStackSlice: selectStackSlice.reducer,
+  quizSlice: quizSlice.reducer,
 });
+
+const persistedReducer = persistReducer(persistConfig, rootReducer);
+
+export const store = configureStore({
+  reducer: persistedReducer,
+  middleware: (getDefaultMiddleware) =>
+    getDefaultMiddleware({
+      serializableCheck: {
+        ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
+      },
+    }),
+});
+
+export const persistor = persistStore(store);
 
 const makeStore = () => {
   return store;
