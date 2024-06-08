@@ -1,9 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useAppSelector } from '../../../hooks/redux/useRedux';
+
+import { useAppDispatch, useAppSelector } from '../../../hooks/redux/useRedux';
 import useFetchResult from '../../../hooks/useApi/useFetchResult';
 
 import { QuizData } from '../../../type/quiz';
+import { resetQuiz } from '../../../store/modules/quizSlice';
+import { resetStack } from '../../../store/modules/quizStackSlice';
 
 type QuizResultProps = {
   data: QuizData[];
@@ -14,16 +17,20 @@ export default function QuizResult({ data }: QuizResultProps) {
   const [result, setResult] = useState({ total: 0, correct: 0, percent: 0 });
   const id = useAppSelector((state) => state.loginSlice);
   const stack = useAppSelector((state) => state.selectStackSlice);
+  // data fetching to firebase
   const { mutation } = useFetchResult(stack.stack, id.id, result.percent);
   const navigate = useNavigate();
+  // redux
+  const dispatch = useAppDispatch();
 
   useEffect(() => {
     // calculate total Q / correct A
     const calculate = () => {
       const Qlength = data.length;
       // correct A
-      const correct = data.map((each: QuizData) => each.state === true).length;
-
+      const correct = data
+        .map((each: QuizData) => each.state === true)
+        .filter((each) => each === true).length;
       const percent = Qlength > 0 ? Math.floor((correct / Qlength) * 100) : 0;
 
       setResult({ total: Qlength, correct, percent });
@@ -33,6 +40,8 @@ export default function QuizResult({ data }: QuizResultProps) {
   }, []);
 
   const submitWithHome = async () => {
+    dispatch(resetStack());
+
     await mutation.mutate();
     navigate('/quiz');
   };
