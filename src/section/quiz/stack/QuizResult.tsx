@@ -1,31 +1,41 @@
 import React, { useEffect, useState } from 'react';
-import { QuizData } from '../../../type/quiz';
-import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { useAppSelector } from '../../../hooks/redux/useRedux';
+import useFetchResult from '../../../hooks/useApi/useFetchResult';
+
+import { QuizData } from '../../../type/quiz';
 
 type QuizResultProps = {
-  quizes: QuizData[];
+  data: QuizData[];
 };
 
 /** 24/06/05 - show quiz result, fetch firebase result*/
-export default function QuizResult({ quizes }: QuizResultProps) {
-  const [result, setResult] = useState({ total: 0, correct: 0 });
-  const user = useAppSelector((state) => state.loginSlice);
+export default function QuizResult({ data }: QuizResultProps) {
+  const [result, setResult] = useState({ total: 0, correct: 0, percent: 0 });
+  const id = useAppSelector((state) => state.loginSlice);
+  const stack = useAppSelector((state) => state.selectStackSlice);
+  const { mutation } = useFetchResult(stack.stack, id.id, result.percent);
+  const navigate = useNavigate();
 
   useEffect(() => {
     // calculate total Q / correct A
     const calculate = () => {
-      const Qlength = quizes.length;
+      const Qlength = data.length;
       // correct A
-      const correct = quizes.map(
-        (each: QuizData) => each.state === true
-      ).length;
+      const correct = data.map((each: QuizData) => each.state === true).length;
 
-      setResult({ total: Qlength, correct });
+      const percent = Qlength > 0 ? Math.floor((correct / Qlength) * 100) : 0;
+
+      setResult({ total: Qlength, correct, percent });
     };
 
     calculate();
   }, []);
+
+  const submitWithHome = async () => {
+    await mutation.mutate();
+    navigate('/quiz');
+  };
 
   const title = ['총 문제', '정답 개수', '퍼센트'];
 
@@ -56,18 +66,16 @@ export default function QuizResult({ quizes }: QuizResultProps) {
               {result.correct}
             </td>
             <td className='w-1/3 px-2 py-2 border-e border-neutral-200'>
-              {String(Math.floor((result.total / result.correct) * 100))}%
+              {result.percent}%
             </td>
           </tr>
         </tbody>
       </table>
-      <div>
-        <Link
-          to={'/quiz'}
-          className='px-2 py-2 bg-yellow-400 text-white font-black rounded-sm hover:bg-yellow-500 transition-default'
-        >
-          메인으로 이동
-        </Link>
+      <div
+        onClick={submitWithHome}
+        className='px-2 py-2 bg-yellow-400 text-white font-black rounded-sm hover:bg-yellow-500 transition-default'
+      >
+        메인으로 이동
       </div>
     </div>
   );
