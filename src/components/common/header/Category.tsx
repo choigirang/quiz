@@ -30,13 +30,15 @@ export default function Category() {
             <Link to={link} className='flex items-center gap-3'>
               {/* icon */}
               <span
-                className={`p-1 ${path.startsWith(link) ? 'bg-yellow-400' : 'bg-white'} rounded border`}
+                className={`p-1 ${path.startsWith(value.link) ? 'bg-yellow-400' : 'bg-white'} rounded border`}
               >
                 {value.icon}
               </span>
               {/* link */}
               <span
-                className={path.includes(link) ? 'font-black' : 'text-gray-500'}
+                className={
+                  path.includes(value.link) ? 'font-black' : 'text-gray-500'
+                }
               >
                 {key}
               </span>
