@@ -1,53 +1,64 @@
-import { useEffect, useState } from 'react';
-import { QuizData } from '../../../type/quiz';
+import React, { SetStateAction, useEffect, useState } from 'react';
 import QuizResult from './QuizResult';
 
+import { useAppDispatch } from '../../../hooks/redux/useRedux';
+import { answer, resetQuiz } from '../../../store/modules/quizSlice';
+
+import { QuizData } from '../../../type/quiz';
+
 type QuizProps = {
-  allQuiz: QuizData[];
+  data: QuizData[];
+  setData: React.Dispatch<SetStateAction<QuizData[] | undefined>>;
 };
 
 /** 24/06/05 - random quiz */
-export default function Question({ allQuiz }: QuizProps) {
+export default function Question({ data, setData }: QuizProps) {
   // quiz set
-  const [quizes, setQuizes] = useState(allQuiz);
   const [curQuiz, setCurQuiz] = useState<QuizData>();
+  // user selected
   const [selectedNum, setSelectedNum] = useState<number>(0);
+  // complete quiz
   const [isQuizComplete, setIsQuizComplete] = useState(false);
+  // quiz
+  const dispatch = useAppDispatch();
 
   // next quiz set
   const nextQuiz = () => {
     if (!curQuiz) return;
+    // init select
+    setSelectedNum(0);
+
+    // add redux with quiz
+    dispatch(answer({ num: curQuiz.num, answer: selectedNum }));
+
     // change quizes correct answer
-    setQuizes((prevQuizes) =>
-      prevQuizes.map((quiz) => {
-        if (quiz.num === curQuiz.num) {
-          const isCorrect = quiz.correct === selectedNum;
-          return { ...quiz, state: isCorrect, done: true };
-        }
-        return quiz;
-      })
+    setData(
+      (prevQuizes) =>
+        prevQuizes &&
+        prevQuizes.map((quiz) => {
+          if (quiz.num === curQuiz.num) {
+            const isCorrect = quiz.correct === selectedNum;
+            return { ...quiz, state: isCorrect, done: true };
+          }
+          return quiz;
+        })
     );
   };
-  // random quiz set
-  useEffect(() => {
-    const randomNum = Math.floor(Math.random() * quizes.length);
-    const randomQ = quizes[randomNum];
-    setCurQuiz(randomQ);
-  }, []);
 
   // if quiz done, change complete
   useEffect(() => {
-    const lastQuiz = quizes.find((quiz) => !quiz.done);
-    if (lastQuiz) {
-      setCurQuiz(lastQuiz);
-      setSelectedNum(0);
+    const allDoneQuiz = data.find((each) => each.done === false);
+
+    if (allDoneQuiz) {
+      setCurQuiz(data.find((each) => each.done === false));
     } else {
-      setIsQuizComplete(true);
+      dispatch(resetQuiz());
+      setIsQuizComplete((prev) => !prev);
     }
-  }, [quizes]);
+  }, [data]);
 
   if (isQuizComplete) {
-    return <QuizResult quizes={quizes} />;
+    return <QuizResult data={data} />;
   }
 
   if (!curQuiz) return <div>서버 에러입니다.</div>;
