@@ -17,6 +17,7 @@ export const quizSlice = createSlice({
       const { num, answer } = action.payload;
       const quizItem = state.find((quiz) => quiz.num === num);
       if (quizItem) {
+        quizItem.state = quizItem.done = true;
         quizItem.state = quizItem.correct === answer;
       }
     },
@@ -24,5 +25,5 @@ export const quizSlice = createSlice({
   },
 });
 
-export const { quiz, resetQuiz } = quizSlice.actions;
+export const { quiz, answer, resetQuiz } = quizSlice.actions;
 export default quizSlice;
