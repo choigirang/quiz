@@ -1,8 +1,9 @@
 import React from 'react';
 import { BrowserRouter } from 'react-router-dom';
 import { Provider } from 'react-redux';
-import { store } from '../../../store/store';
+import { persistor, store } from '../../../store/store';
 import { QueryClient, QueryClientProvider } from 'react-query';
+import { PersistGate } from 'redux-persist/integration/react';
 
 const queryClient = new QueryClient();
 
@@ -11,7 +12,9 @@ export default function WithProvider({ children }: React.PropsWithChildren) {
   return (
     <BrowserRouter>
       <QueryClientProvider client={queryClient}>
-        <Provider store={store}>{children}</Provider>
+        <Provider store={store}>
+          <PersistGate persistor={persistor}>{children}</PersistGate>
+        </Provider>
       </QueryClientProvider>
     </BrowserRouter>
   );
