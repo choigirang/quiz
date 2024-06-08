@@ -24,7 +24,7 @@ export default function ChartPage() {
 
   return (
     <section className='flex flex-col justify-start items-center gap-3 w-full'>
-      <div className='flex justify-around items-center w-[300px] h-[150px]'>
+      <div className='flex justify-around items-center w-[300px] h-[100px]'>
         {/* category */}
         {Object.entries(link).map(([key, value]) => (
           <Link
