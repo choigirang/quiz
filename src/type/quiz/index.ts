@@ -35,3 +35,10 @@ export type QuizData = {
   correct: number;
   done: boolean;
 };
+
+/** 24/06/08 - ranking data */
+export type RankData = {
+  [stack: string]: {
+    [userId: string]: number;
+  };
+};
