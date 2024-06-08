@@ -36,7 +36,7 @@ export default function QuizPage() {
         navigate(`/quiz/${category.stack}`);
       }, 1000);
       // set global state stack
-      dispatch(selectStack({ stack: category.stack }));
+      dispatch(selectStack(category.stack));
 
       return () => clearTimeout(timer);
     }
