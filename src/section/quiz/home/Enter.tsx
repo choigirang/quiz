@@ -1,19 +1,11 @@
 import React, { SetStateAction, useState } from 'react';
 import { CategoryData, SelectQuizCategory } from '../../../type/quiz';
 import { CategroyState } from './QuizPage';
+import { useAppSelector } from '../../../hooks/redux/useRedux';
+import { stackCategory } from '../../../assets/quiz';
 
 type EnterProps = {
   setCategory: React.Dispatch<SetStateAction<CategroyState>>;
-};
-
-const category: CategoryData = {
-  html: { name: 'Html', color: '#DC4A25' },
-  css: { name: 'Css', color: '#244BDD' },
-  js: { name: 'Javascript', color: '#EFD81A' },
-  ts: { name: 'Typescript', color: '#2F73BF' },
-  react: { name: 'React', color: '#5ED2F3' },
-  next: { name: 'Next', color: 'black' },
-  cs: { name: 'CS', color: 'black' },
 };
 
 /** 24/06/02 - select stack category */
@@ -34,7 +26,7 @@ export default function Enter({ setCategory }: EnterProps) {
       </div>
       {/* list */}
       <ul className={`${!selected ? 'grid grid-cols-5 gap-3' : 'none-style'}`}>
-        {Object.keys(category).map((each) => {
+        {Object.keys(stackCategory).map((each) => {
           const key = each as SelectQuizCategory;
           const isSelected = selected === key;
 
@@ -45,8 +37,8 @@ export default function Enter({ setCategory }: EnterProps) {
               //   select category change style
               style={{
                 display: !selected ? 'block' : isSelected ? 'block' : 'none',
-                borderColor: category[key].color,
-                color: category[key].color,
+                borderColor: stackCategory[key].color,
+                color: stackCategory[key].color,
                 backgroundColor: 'white',
                 opacity: !selected ? 100 : isSelected ? 100 : 0,
                 transform: !selected
@@ -57,7 +49,7 @@ export default function Enter({ setCategory }: EnterProps) {
               }}
               onClick={() => handleClick(key)}
             >
-              {category[key].name}
+              {stackCategory[key].name}
             </li>
           );
         })}
