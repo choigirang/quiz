@@ -19,17 +19,19 @@ import storage from 'redux-persist/lib/storage';
 import loginSlice from './modules/loginSlice';
 import selectStackSlice from './modules/quizStackSlice';
 import quizSlice from './modules/quizSlice';
+import sheetStackSlice from './modules/sheetStackSlice';
 
 const persistConfig = {
   key: 'root',
   storage,
-  whitelist: ['loginSlice', 'selectStackSlice', 'quizSlice'],
+  whitelist: ['loginSlice', 'selectStackSlice', 'quizSlice', 'sheetStackSlice'],
 };
 
 const rootReducer = combineReducers({
   loginSlice: loginSlice.reducer,
   selectStackSlice: selectStackSlice.reducer,
   quizSlice: quizSlice.reducer,
+  sheetStackSlice: sheetStackSlice.reducer,
 });
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);
