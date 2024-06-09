@@ -1,10 +1,11 @@
+import { Route, Routes } from 'react-router-dom';
+
 import WithProvider from './components/common/provider/WithProvider';
 import Header from './components/common/header/Header';
-import { Route, Routes } from 'react-router-dom';
-import QuizPage from './section/quiz/home/QuizPage';
-import AllPage from './section/all/AllPage';
-import ChartPage from './section/chart/ChartPage';
-import Quiz from './section/quiz/stack/Quiz';
+import SelectPage from './pages/quiz/SelectPage';
+import QuizPage from './pages/quiz/QuizPage';
+import AllPage from './pages/all/AllPage';
+import ChartPage from './pages/chart/ChartPage';
 
 function App() {
   return (
@@ -12,9 +13,9 @@ function App() {
       <WithProvider>
         <Header />
         <Routes>
-          <Route path='/quiz' element={<QuizPage />} />
-          <Route path='/quiz/:stack' element={<Quiz />} />
-          <Route path='/all' element={<AllPage />} />
+          <Route path='/quiz' element={<SelectPage />} />
+          <Route path='/quiz/:stack' element={<QuizPage />} />
+          <Route path='/all/*' element={<AllPage />} />
           <Route path='/chart/*' element={<ChartPage />} />
         </Routes>
       </WithProvider>
