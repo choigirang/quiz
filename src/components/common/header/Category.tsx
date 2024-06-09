@@ -16,18 +16,31 @@ const CATEGORY = {
 export default function Category() {
   const path = useLocation().pathname;
   const { stack } = useAppSelector((state) => state.selectStackSlice);
+  const { stack: sheet } = useAppSelector((state) => state.sheetStackSlice);
+
+  const createLink = (link: string) => {
+    if (link === '/quiz') {
+      if (stack) return `/quiz/${stack}`;
+      else return '/quiz';
+    }
+
+    if (link === '/all') {
+      if (sheet) return `/all/${sheet}`;
+      else return '/all';
+    } else return link;
+  };
 
   return (
     <ul className='flex flex-col mt-10 gap-10 text-sm'>
       {/* category mapping */}
       {Object.entries(CATEGORY).map(([key, value]) => {
         // if login & selected stack && home page = seleted stack page
-        const link =
-          stack && value.link === '/quiz' ? `/quiz/${stack}` : value.link;
-
         return (
           <li key={key}>
-            <Link to={link} className='flex items-center gap-3'>
+            <Link
+              to={createLink(value.link)}
+              className='flex items-center gap-3'
+            >
               {/* icon */}
               <span
                 className={`p-1 ${path.startsWith(value.link) ? 'bg-yellow-400' : 'bg-white'} rounded border`}
