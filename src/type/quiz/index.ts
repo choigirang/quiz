@@ -1,3 +1,5 @@
+import { Color } from 'chart.js';
+
 /** 24/06/01 - quiz category data */
 export type SelectQuizCategory =
   | 'html'
@@ -34,11 +36,14 @@ export type QuizData = {
   state: boolean;
   correct: number;
   done: boolean;
+  des: string[];
 };
 
 /** 24/06/08 - ranking data */
-export type RankData = {
-  [stack: string]: {
-    [userId: string]: number;
-  };
+export type RankData = [string, any];
+
+/** 24/06/09 - select category in Enter */
+export type CategroyState = {
+  stack: SelectQuizCategory | null;
+  display: boolean;
 };
