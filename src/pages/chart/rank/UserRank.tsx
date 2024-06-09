@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 
-import { useAppSelector } from '../../hooks/redux/useRedux';
-import useRankWithUser from '../../hooks/useApi/useRankWithUser';
+import { useAppSelector } from '../../../hooks/redux/useRedux';
+import useRankWithUser from '../../../hooks/useApi/useRankWithUser';
 
 type UserScoreType = {
   score: number;
@@ -9,14 +9,18 @@ type UserScoreType = {
 };
 
 /** 24/06/09 - user rank info with stack */
-export default function UserRank({ stack }: { stack: string }) {
+export default function UserRank({
+  user,
+  stack,
+}: {
+  user: string;
+  stack: string | undefined;
+}) {
   // user rank & score
   const [userScore, setUserScore] = useState<UserScoreType>({
     score: 0,
     rank: 0,
   });
-  // login user
-  const user = useAppSelector((state) => state.loginSlice.id);
   // get user data
   const { refetch } = useRankWithUser(user, stack);
   // user score & user ranking set
@@ -27,6 +31,8 @@ export default function UserRank({ stack }: { stack: string }) {
       const res = await refetch();
       if (res.data && res.data.rank && res.data.score) {
         setUserScore({ ...res.data });
+      } else {
+        setUserScore({ score: 0, rank: 0 });
       }
     };
 
