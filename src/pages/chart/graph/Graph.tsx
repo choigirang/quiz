@@ -1,3 +1,7 @@
+import { useEffect } from 'react';
+import useGraph from '../../../hooks/useApi/useGraph';
+import { DocumentData } from 'firebase/firestore';
+
 import {
   Chart as ChartJS,
   BarElement,
@@ -9,18 +13,8 @@ import {
   ChartOptions,
 } from 'chart.js';
 import { Bar } from 'react-chartjs-2';
-import useGraph from '../../../hooks/useApi/useGraph';
-import { DocumentData } from 'firebase/firestore';
-import { useEffect } from 'react';
 
-ChartJS.register(
-  BarElement,
-  CategoryScale,
-  LinearScale,
-  Tooltip,
-  Legend,
-  PointElement
-);
+ChartJS.register(BarElement, CategoryScale, LinearScale, Tooltip, Legend, PointElement);
 
 // calculate length
 const calculate = (rank: DocumentData) => {
@@ -53,6 +47,20 @@ const data = (rank: DocumentData) => {
   };
 };
 
+const options: ChartOptions<'bar'> = {
+  scales: {
+    y: {
+      beginAtZero: true,
+      ticks: {
+        stepSize: 1,
+        callback: function (value) {
+          return Number(value).toFixed(0); // Convert to integer
+        },
+      },
+    },
+  },
+};
+
 /** 24/06/08 - graph page */
 export default function Graph({ stack }: { stack: string }) {
   const { data: rank, isLoading, refetch } = useGraph(stack);
@@ -66,7 +74,7 @@ export default function Graph({ stack }: { stack: string }) {
 
   return (
     <div className='flex items-center w-full h-full p-5'>
-      <Bar datasetIdKey='id' data={data(rank)} />
+      <Bar datasetIdKey='id' data={data(rank)} options={options} />
     </div>
   );
 }
