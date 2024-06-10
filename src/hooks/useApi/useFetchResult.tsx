@@ -1,5 +1,6 @@
-import { doc, getDoc, setDoc } from 'firebase/firestore';
 import { useMutation, useQueryClient } from 'react-query';
+
+import { doc, setDoc } from 'firebase/firestore';
 import { db } from '../../utils/api/firebase';
 
 async function transmitResult(stack: string, id: string, score: number) {
@@ -11,11 +12,7 @@ async function transmitResult(stack: string, id: string, score: number) {
 }
 
 /** 24/06/05 - transmit user Quiz data */
-export default function useFetchResult(
-  stack: string,
-  id: string,
-  score: number
-) {
+export default function useFetchResult(stack: string, id: string, score: number) {
   const queryClient = useQueryClient();
 
   const mutation = useMutation(() => transmitResult(stack, id, score), {

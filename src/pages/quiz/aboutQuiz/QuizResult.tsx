@@ -1,12 +1,11 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-
 import { useAppDispatch, useAppSelector } from '../../../hooks/redux/useRedux';
 import useFetchResult from '../../../hooks/useApi/useFetchResult';
 
-import { QuizData } from '../../../type/quiz';
-import { resetQuiz } from '../../../store/modules/quizSlice';
 import { resetStack } from '../../../store/modules/quizStackSlice';
+
+import { QuizData } from '../../../type/quiz';
 
 type QuizResultProps = {
   data: QuizData[];
@@ -68,15 +67,9 @@ export default function QuizResult({ data }: QuizResultProps) {
         {/* content */}
         <tbody className='flex justify-center w-full'>
           <tr className='w-[70%] flex border border-neutral-200'>
-            <td className='w-1/3 px-2 py-2 border-e border-neutral-200'>
-              {result.total}
-            </td>
-            <td className='w-1/3 px-2 py-2 border-e border-neutral-200'>
-              {result.correct}
-            </td>
-            <td className='w-1/3 px-2 py-2 border-e border-neutral-200'>
-              {result.percent}%
-            </td>
+            <td className='w-1/3 px-2 py-2 border-e border-neutral-200'>{result.total}</td>
+            <td className='w-1/3 px-2 py-2 border-e border-neutral-200'>{result.correct}</td>
+            <td className='w-1/3 px-2 py-2 border-e border-neutral-200'>{result.percent}%</td>
           </tr>
         </tbody>
       </table>

@@ -1,6 +1,7 @@
-import { collection, doc, getDoc, getDocs } from 'firebase/firestore';
-import { db } from '../../utils/api/firebase';
 import { useQuery } from 'react-query';
+
+import { doc, getDoc } from 'firebase/firestore';
+import { db } from '../../utils/api/firebase';
 
 async function getUserRank(id: string, stack: string | undefined) {
   // !stack

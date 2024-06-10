@@ -1,4 +1,4 @@
-import React, { SetStateAction, useEffect, useState } from 'react';
+import React, { SetStateAction } from 'react';
 import ReactPaginate from 'react-paginate';
 
 type PageProps = {

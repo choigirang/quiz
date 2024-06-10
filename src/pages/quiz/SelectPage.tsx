@@ -3,9 +3,10 @@ import { useNavigate } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../../hooks/redux/useRedux';
 
 import Login from '../../components/common/login/Login';
-import Enter from '../../components/common/quiz/Enter';
+import Enter from '../../components/quiz/Enter';
 
 import { CategroyState } from '../../type/quiz';
+
 import { selectStack } from '../../store/modules/quizStackSlice';
 
 /** 24/06/02 - /quiz page (login & select stack) */

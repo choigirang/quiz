@@ -1,5 +1,6 @@
 import { PayloadAction, createSlice } from '@reduxjs/toolkit';
-import { InitStack, QuizData } from '../../type/quiz';
+
+import { QuizData } from '../../type/quiz';
 
 const initialState: QuizData[] = [];
 
@@ -10,10 +11,7 @@ export const quizSlice = createSlice({
     quiz: (state, action: PayloadAction<QuizData[]>) => {
       return action.payload;
     },
-    answer: (
-      state: QuizData[],
-      action: PayloadAction<{ num: number; answer: number }>
-    ) => {
+    answer: (state: QuizData[], action: PayloadAction<{ num: number; answer: number }>) => {
       const { num, answer } = action.payload;
       const quizItem = state.find((quiz) => quiz.num === num);
       if (quizItem) {

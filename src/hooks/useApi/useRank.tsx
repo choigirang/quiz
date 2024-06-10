@@ -1,6 +1,8 @@
+import { useQuery } from 'react-query';
+
 import { collection, doc, getDoc, getDocs } from 'firebase/firestore';
 import { db } from '../../utils/api/firebase';
-import { useQuery } from 'react-query';
+
 import { RankData } from '../../type/quiz';
 
 type GetData = {
@@ -9,10 +11,7 @@ type GetData = {
   stack?: string;
 };
 
-async function getRank(
-  page: number,
-  stack: string | undefined
-): Promise<GetData> {
+async function getRank(page: number, stack: string | undefined): Promise<GetData> {
   // page with length (20)
   const startIdx = (page - 1) * 20;
   const endIdx = startIdx + 20;
@@ -51,9 +50,7 @@ async function getRank(
 
 /** 24/06/08 - get rank data query hooks */
 export default function useRank(page = 1, stack: string | undefined) {
-  const { data, isLoading, isSuccess, refetch } = useQuery(['rank'], () =>
-    getRank(page, stack)
-  );
+  const { data, isLoading, isSuccess, refetch } = useQuery(['rank'], () => getRank(page, stack));
 
   return { data, isLoading, isSuccess, refetch };
 }

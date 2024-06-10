@@ -1,8 +1,11 @@
-import { doc, getDoc } from 'firebase/firestore';
-import { db } from '../../utils/api/firebase';
 import { useQuery } from 'react-query';
 import { useAppDispatch } from '../redux/useRedux';
+
+import { doc, getDoc } from 'firebase/firestore';
+import { db } from '../../utils/api/firebase';
+
 import { login } from '../../store/modules/loginSlice';
+
 import { LoginData } from '../../type/login';
 
 // check exist user
