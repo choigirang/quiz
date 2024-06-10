@@ -8,6 +8,7 @@ const tsQuiz: QuizData[] = [
     state: false,
     correct: 1,
     done: false,
+    des: [],
   },
   {
     num: 2,
@@ -16,6 +17,7 @@ const tsQuiz: QuizData[] = [
     state: false,
     correct: 1,
     done: false,
+    des: [],
   },
 ];
 
