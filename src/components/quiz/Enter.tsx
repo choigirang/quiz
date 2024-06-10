@@ -1,6 +1,6 @@
 import React, { SetStateAction, useState } from 'react';
-import { CategroyState, SelectQuizCategory } from '../../../type/quiz';
-import { stackCategory } from '../../../assets/quiz';
+import { CategroyState, SelectQuizCategory } from '../../type/quiz';
+import { stackCategory } from '../../assets/quiz';
 
 type EnterProps = {
   children: JSX.Element | null;
