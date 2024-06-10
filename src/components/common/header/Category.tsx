@@ -1,10 +1,8 @@
-import {
-  AcademicCapIcon,
-  BellSnoozeIcon,
-  ChartBarIcon,
-} from '@heroicons/react/24/outline';
 import { Link, useLocation } from 'react-router-dom';
+
 import { useAppSelector } from '../../../hooks/redux/useRedux';
+
+import { AcademicCapIcon, BellSnoozeIcon, ChartBarIcon } from '@heroicons/react/24/outline';
 
 const CATEGORY = {
   퀴즈: { link: '/quiz', icon: <BellSnoozeIcon width={16} height={16} /> },
@@ -37,10 +35,7 @@ export default function Category() {
         // if login & selected stack && home page = seleted stack page
         return (
           <li key={key}>
-            <Link
-              to={createLink(value.link)}
-              className='flex items-center gap-3'
-            >
+            <Link to={createLink(value.link)} className='flex items-center gap-3'>
               {/* icon */}
               <span
                 className={`p-1 ${path.startsWith(value.link) ? 'bg-yellow-400' : 'bg-white'} rounded border`}
@@ -48,11 +43,7 @@ export default function Category() {
                 {value.icon}
               </span>
               {/* link */}
-              <span
-                className={
-                  path.includes(value.link) ? 'font-black' : 'text-gray-500'
-                }
-              >
+              <span className={path.includes(value.link) ? 'font-black' : 'text-gray-500'}>
                 {key}
               </span>
             </Link>
