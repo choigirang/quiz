@@ -87,11 +87,7 @@ export default function Data({ stack }: DataProps) {
                 />
               </div>
               {/* des */}
-              <EachDes
-                selected={selected}
-                data={data[each].des}
-                parentH={refs.current[each]?.offsetHeight}
-              />
+              <EachDes selected={selected} data={data[each].des} />
             </li>
           </React.Suspense>
         );
