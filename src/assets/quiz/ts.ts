@@ -1,8 +1,7 @@
 import { QuizData } from '../../type/quiz';
 
-const tsQuiz: QuizData[] = [
+const quiz: Omit<QuizData, 'num'>[] = [
   {
-    num: 1,
     title: '타입스크립트 1?',
     Q: { 1: 'A programming language', 2: 'A type of food', 3: 'A car brand' },
     state: false,
@@ -11,7 +10,6 @@ const tsQuiz: QuizData[] = [
     des: [],
   },
   {
-    num: 2,
     title: '타입스크립트 2',
     Q: { 1: 'A programming language', 2: 'A type of food', 3: 'A car brand' },
     state: false,
@@ -20,5 +18,14 @@ const tsQuiz: QuizData[] = [
     des: [],
   },
 ];
+
+const generateQuizData = (data: Omit<QuizData, 'num'>[]): QuizData[] => {
+  return data.map((item, index) => ({
+    ...item,
+    num: index + 1,
+  }));
+};
+
+const tsQuiz: QuizData[] = generateQuizData(quiz);
 
 export default tsQuiz;
