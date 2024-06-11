@@ -13,8 +13,8 @@ export default function Header() {
     <header className='flex flex-col justify-between w-[150px] h-screen p-5 border-r'>
       <div>
         {/* logo */}
-        <h1 className='font-black'>
-          <Link to={'/quiz'}>
+        <h1>
+          <Link to={'/quiz'} className='font-bold'>
             DEV<br></br>Quiz
           </Link>
         </h1>
