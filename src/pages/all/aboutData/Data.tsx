@@ -3,7 +3,6 @@ import { useNavigate } from 'react-router-dom';
 import { useAppSelector } from 'hooks/redux/useRedux';
 
 import EachDes from './EachDes';
-import SkeletonList from './SkeletonList';
 
 import { QuizData } from 'type/quiz';
 
@@ -70,7 +69,7 @@ export default function Data({ stack }: DataProps) {
       {Object.keys(data).map((each) => {
         const selected = isClick === each;
         return (
-          <React.Suspense fallback={<SkeletonList />} key={`data list ${each}`}>
+          <React.Suspense fallback={<li>데이터를 불러오고 있습니다.</li>} key={`data list ${each}`}>
             <li
               ref={(el) => (refs.current[each] = el)}
               onClick={() => clickHandler(each)}
