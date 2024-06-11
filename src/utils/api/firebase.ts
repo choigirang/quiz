@@ -1,16 +1,14 @@
 import { initializeApp } from 'firebase/app';
 import { getFirestore } from 'firebase/firestore';
 
-const { KEY, DOMAIN, PROJECT_ID, BUCKET, MESSAGINH_ID, APP_ID, MEASURE_ID } = process.env;
-
 const firebaseConfig = {
-  apiKey: KEY,
-  authDomain: DOMAIN,
-  projectId: PROJECT_ID,
-  storageBucket: BUCKET,
-  messagingSenderId: MESSAGINH_ID,
-  appId: APP_ID,
-  measurementId: MEASURE_ID,
+  apiKey: process.env.REACT_APP_FIREBASE_KEY,
+  authDomain: process.env.REACT_APP_FIREBASE_DOMAIN,
+  projectId: process.env.REACT_APP_FIREBASE_PROJECT_ID,
+  storageBucket: process.env.REACT_APP_FIREBASE_BUCKET,
+  messagingSenderId: process.env.REACT_APP_FIREBASE_MESSAGING_ID,
+  appId: process.env.REACT_APP_FIREBASE_APP_ID,
+  measurementId: process.env.REACT_APP_FIREBASE_MEASURE_ID,
 };
 
 const app = initializeApp(firebaseConfig);
