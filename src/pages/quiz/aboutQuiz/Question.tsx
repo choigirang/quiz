@@ -1,4 +1,4 @@
-import React, { SetStateAction, useEffect, useState } from 'react';
+import React, { SetStateAction, useCallback, useEffect, useState } from 'react';
 import QuizResult from './QuizResult';
 
 import { useAppDispatch } from '../../../hooks/redux/useRedux';
@@ -17,13 +17,11 @@ export default function Question({ data, setData }: QuizProps) {
   const [curQuiz, setCurQuiz] = useState<QuizData>();
   // user selected
   const [selectedNum, setSelectedNum] = useState<number>(0);
-  // complete quiz
-  const [isQuizComplete, setIsQuizComplete] = useState(false);
   // quiz
   const dispatch = useAppDispatch();
 
   // next quiz set
-  const nextQuiz = () => {
+  const nextQuiz = useCallback(() => {
     if (!curQuiz) return;
     // init select
     setSelectedNum(0);
@@ -43,7 +41,7 @@ export default function Question({ data, setData }: QuizProps) {
           return quiz;
         })
     );
-  };
+  }, [curQuiz, selectedNum, dispatch, setData]);
 
   // if quiz done, change complete
   useEffect(() => {
@@ -53,11 +51,10 @@ export default function Question({ data, setData }: QuizProps) {
       setCurQuiz(data.find((each) => each.done === false));
     } else {
       dispatch(resetQuiz());
-      setIsQuizComplete((prev) => !prev);
     }
   }, [data]);
 
-  if (isQuizComplete) {
+  if (!data.some((each) => !each.done)) {
     return <QuizResult data={data} />;
   }
 
