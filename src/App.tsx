@@ -13,6 +13,7 @@ function App() {
       <WithProvider>
         <Header />
         <Routes>
+          <Route path='/' element={<SelectPage />} />
           <Route path='/quiz' element={<SelectPage />} />
           <Route path='/quiz/:stack' element={<QuizPage />} />
           <Route path='/all/*' element={<AllPage />} />

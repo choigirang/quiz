@@ -38,7 +38,7 @@ export default function Category() {
             <Link to={createLink(value.link)} className='flex items-center gap-3'>
               {/* icon */}
               <span
-                className={`p-1 ${path.startsWith(value.link) ? 'bg-yellow-400' : 'bg-white'} rounded border`}
+                className={`p-1 ${path.startsWith(value.link) || path === '/' ? 'bg-yellow-400' : 'bg-white'} rounded border`}
               >
                 {value.icon}
               </span>
