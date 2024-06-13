@@ -1,4 +1,3 @@
-import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../../../hooks/redux/useRedux';
 import useFetchResult from '../../../hooks/useApi/useFetchResult';
@@ -11,36 +10,29 @@ type QuizResultProps = {
   data: QuizData[];
 };
 
+const calculateResult = (data: QuizData[]) => {
+  const Qlength = data.length;
+  const correct = data.filter((quiz) => quiz.state === true).length;
+  const percent = Qlength > 0 ? Math.floor((correct / Qlength) * 100) : 0;
+  return { total: Qlength, correct, percent };
+};
+
 /** 24/06/05 - show quiz result, fetch firebase result*/
 export default function QuizResult({ data }: QuizResultProps) {
-  const [result, setResult] = useState({ total: 0, correct: 0, percent: 0 });
-  const id = useAppSelector((state) => state.loginSlice);
-  const stack = useAppSelector((state) => state.selectStackSlice);
-  // data fetching to firebase
-  const { mutation } = useFetchResult(stack.stack, id.id, result.percent);
+  const id = useAppSelector((state) => state.loginSlice.id);
+  const stack = useAppSelector((state) => state.selectStackSlice.stack);
   const navigate = useNavigate();
-  // redux
   const dispatch = useAppDispatch();
 
-  useEffect(() => {
-    // calculate total Q / correct A
-    const calculate = () => {
-      const Qlength = data.length;
-      // correct A
-      const correct = data
-        .map((each: QuizData) => each.state === true)
-        .filter((each) => each === true).length;
-      const percent = Qlength > 0 ? Math.floor((correct / Qlength) * 100) : 0;
+  // Calculate result once on mount
+  const { total, correct, percent } = calculateResult(data);
 
-      setResult({ total: Qlength, correct, percent });
-    };
+  // Fetch result mutation
+  const { mutation } = useFetchResult(stack, id, percent);
 
-    calculate();
-  }, []);
-
+  // Reset stack and navigate to '/quiz'
   const submitWithHome = async () => {
     dispatch(resetStack());
-
     await mutation.mutate();
     navigate('/quiz');
   };
@@ -67,9 +59,9 @@ export default function QuizResult({ data }: QuizResultProps) {
         {/* content */}
         <tbody className='flex justify-center w-full'>
           <tr className='w-[70%] flex border border-neutral-200'>
-            <td className='w-1/3 px-2 py-2 border-e border-neutral-200'>{result.total}</td>
-            <td className='w-1/3 px-2 py-2 border-e border-neutral-200'>{result.correct}</td>
-            <td className='w-1/3 px-2 py-2 border-e border-neutral-200'>{result.percent}%</td>
+            <td className='w-1/3 px-2 py-2 border-e border-neutral-200'>{total}</td>
+            <td className='w-1/3 px-2 py-2 border-e border-neutral-200'>{correct}</td>
+            <td className='w-1/3 px-2 py-2 border-e border-neutral-200'>{percent}%</td>
           </tr>
         </tbody>
       </table>
