@@ -32,11 +32,7 @@ export default function Data({ stack }: DataProps) {
   const navi = useNavigate();
 
   const clickHandler = (e: string) => {
-    if (e === isClick) {
-      setIsClick(undefined);
-    } else {
-      setIsClick(e);
-    }
+    setIsClick((prev) => (prev === e ? undefined : e));
   };
 
   // get data
@@ -48,11 +44,11 @@ export default function Data({ stack }: DataProps) {
     }
 
     const getData = async () => {
-      const data = await import(`assets/quiz/${stack ? stack : sheet}`);
-      const des: QuizData[] = data.default;
+      const modulePath = `assets/quiz/${stack ? stack : sheet}`;
+      const { default: des } = await import(modulePath);
       const reData: DesData = {};
 
-      des.map((each) => {
+      des.map((each: QuizData) => {
         reData[each.num] = { title: each.title, des: each.des };
       });
 
