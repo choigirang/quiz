@@ -38,13 +38,16 @@ export default function useExistUser(id: string, code: string) {
 
   const { data, isLoading, isSuccess, refetch } = useQuery(
     ['user', id],
-    () =>
-      getExistUser(id, code)
-        .then((res) => {
-          dispatch(login(res as LoginData));
-        })
-        .catch((err) => alert(err)),
-    { enabled: false }
+    () => getExistUser(id, code),
+    {
+      enabled: false,
+      onSuccess: (userData: LoginData) => {
+        dispatch(login(userData));
+      },
+      onError: (err: Error) => {
+        alert(err.message);
+      },
+    }
   );
 
   return { data, isLoading, isSuccess, refetch };
