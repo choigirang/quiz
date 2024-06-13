@@ -17,6 +17,11 @@ export default function AllPage() {
 
   const dispatch = useAppDispatch();
 
+  const resetHandle = () => {
+    setStack('');
+    setDisplayWelcome(true);
+  };
+
   useEffect(() => {
     if (stack) {
       // display timer with change page
@@ -44,7 +49,7 @@ export default function AllPage() {
             )
           }
         ></Route>
-        <Route path={`/:stack`} element={<Data stack={stack} />} />
+        <Route path={`/:stack`} element={<Data stack={stack} resetHandle={resetHandle} />} />
       </Routes>
       {/* reset stack */}
       <ResetBtn name='all' setDisplay={setDisplayWelcome} setStack={setStack} />

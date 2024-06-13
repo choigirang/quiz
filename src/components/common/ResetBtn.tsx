@@ -32,9 +32,9 @@ export default function ResetBtn({ name, setStack, setDisplay }: ResetProps) {
       navi(`/quiz`);
     } else if (name === 'all' && sheet) {
       dispatch(resetSheet());
+      if (setStack) setStack(null);
       if (setDisplay) {
         setDisplay(true);
-        if (setStack) setStack('');
       }
       navi(`/all`);
     }

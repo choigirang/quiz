@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { SetStateAction, useEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAppSelector } from 'hooks/redux/useRedux';
 
@@ -10,6 +10,7 @@ import { PlayIcon } from '@heroicons/react/24/outline';
 
 type DataProps = {
   stack: string | null;
+  resetHandle: () => void;
 };
 
 type DesData = {
@@ -20,7 +21,7 @@ type DesData = {
 };
 
 /** 24/06/09 - get selected sheet data */
-export default function Data({ stack }: DataProps) {
+export default function Data({ stack, resetHandle }: DataProps) {
   // title & des
   const [data, setData] = useState<DesData>();
   // click li
@@ -38,21 +39,28 @@ export default function Data({ stack }: DataProps) {
   // get data
   useEffect(() => {
     // user direct URL
-    if (!stack && !sheet) {
+    if (!stack || !sheet) {
       alert('잘못된 접근입니다.');
       return navi('/all');
     }
 
     const getData = async () => {
-      const modulePath = `assets/quiz/${stack ? stack : sheet}`;
-      const { default: des } = await import(modulePath);
-      const reData: DesData = {};
+      await import(`assets/quiz/${stack ? stack : sheet}`)
+        .then(async (res) => {
+          const des = res.default;
+          const reData: DesData = {};
 
-      des.map((each: QuizData) => {
-        reData[each.num] = { title: each.title, des: each.des };
-      });
+          des.map((each: QuizData) => {
+            reData[each.num] = { title: each.title, des: each.des };
+          });
 
-      await setData(reData);
+          return await setData(reData);
+        })
+        .catch(() => {
+          alert('저장된 데이터가 없습니다.');
+          resetHandle();
+          navi('/all');
+        });
     };
 
     getData();
