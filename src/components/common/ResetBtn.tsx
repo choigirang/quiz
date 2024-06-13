@@ -6,17 +6,16 @@ import { resetQuiz } from 'store/modules/quizSlice';
 import { resetStack } from 'store/modules/quizStackSlice';
 import { resetSheet } from 'store/modules/sheetStackSlice';
 
-import { CategroyState } from 'type/quiz';
-
 import { ArrowPathIcon } from '@heroicons/react/24/outline';
 
 type ResetProps = {
   name: string;
-  setDisplay?: React.Dispatch<SetStateAction<CategroyState>>;
+  setStack?: React.Dispatch<SetStateAction<string | null>>;
+  setDisplay?: React.Dispatch<SetStateAction<boolean>>;
 };
 
 /** 24/06/10 - reset btn */
-export default function ResetBtn({ name, setDisplay }: ResetProps) {
+export default function ResetBtn({ name, setStack, setDisplay }: ResetProps) {
   // reset tooltip
   const [tooltip, setTooltip] = useState(false);
   // navi
@@ -33,7 +32,10 @@ export default function ResetBtn({ name, setDisplay }: ResetProps) {
       navi(`/quiz`);
     } else if (name === 'all' && sheet) {
       dispatch(resetSheet());
-      if (setDisplay) setDisplay({ stack: '', display: true });
+      if (setDisplay) {
+        setDisplay(true);
+        if (setStack) setStack('');
+      }
       navi(`/all`);
     }
   };
