@@ -8,32 +8,28 @@ import ResetBtn from 'components/common/ResetBtn';
 
 import { selectSheet } from 'store/modules/sheetStackSlice';
 
-import { CategroyState } from '../../type/quiz';
-
 /** 24/06/09 - all Sheet about stack */
 export default function AllPage() {
-  const [category, setCategory] = useState<CategroyState>({
-    stack: '',
-    display: true,
-  });
+  const [stack, setStack] = useState<string | null>(null);
+  const [displayWelcome, setDisplayWelcome] = useState(true);
 
   const navi = useNavigate();
 
   const dispatch = useAppDispatch();
 
   useEffect(() => {
-    if (category.stack) {
+    if (stack) {
       // display timer with change page
       const timer = setTimeout(() => {
-        setCategory((prev) => ({ ...prev, display: false }));
-        navi(`/all/${category.stack}`);
+        setDisplayWelcome((prev) => !prev);
+        navi(`/all/${stack}`);
       }, 1000);
       // set global state stack
-      dispatch(selectSheet(category.stack));
+      dispatch(selectSheet(stack));
 
       return () => clearTimeout(timer);
     }
-  }, [category.stack]);
+  }, [stack]);
 
   return (
     <section className='relative flex flex-col justify-center items-center w-full'>
@@ -41,17 +37,17 @@ export default function AllPage() {
         <Route
           path='/'
           element={
-            category.display && (
-              <Enter category={category.stack} setCategory={setCategory}>
+            displayWelcome && (
+              <Enter category={stack} setCategory={setStack}>
                 <h2 className='text-xl font-black'>모아보기 할 데이터를 가져옵니다.</h2>
               </Enter>
             )
           }
         ></Route>
-        <Route path={`/:stack`} element={<Data stack={category.stack} />} />
+        <Route path={`/:stack`} element={<Data stack={stack} />} />
       </Routes>
       {/* reset stack */}
-      <ResetBtn name='all' setDisplay={setCategory} />
+      <ResetBtn name='all' setDisplay={setDisplayWelcome} setStack={setStack} />
     </section>
   );
 }
