@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import { Link, Route, Routes, useLocation } from 'react-router-dom';
 import useRank from '../../hooks/useApi/useRank';
 
@@ -7,11 +7,6 @@ import Graph from './graph/Graph';
 
 import { RankData } from '../../type/quiz';
 import { stackCategory } from '../../assets/quiz';
-
-const link = {
-  랭킹: { link: '/chart' },
-  그래프: { link: '/chart/graph' },
-};
 
 /** 24/06/08 - all chart page with data*/
 export default function ChartPage() {
@@ -25,12 +20,15 @@ export default function ChartPage() {
   const path = useLocation().pathname;
 
   // select stack with refetch data by stack
-  const stackHandler = async (stack: string) => {
-    await setStack(stack);
-    refetch().then((res) => {
-      setRanking(res.data?.ranking);
-    });
-  };
+  const stackHandler = useCallback(
+    async (stack: string) => {
+      await setStack(stack);
+      refetch().then((res) => {
+        setRanking(res.data?.ranking);
+      });
+    },
+    [refetch]
+  );
 
   useEffect(() => {
     setRanking(rank?.ranking);
@@ -43,11 +41,18 @@ export default function ChartPage() {
     });
   }, [page]);
 
+  const link = useMemo(
+    () => Object.entries({ 랭킹: { link: '/chart' }, 그래프: { link: '/chart/graph' } }),
+    []
+  );
+
+  const stackKeys = useMemo(() => Object.keys(stackCategory), []);
+
   return (
     <section className='flex flex-col justify-start items-center gap-1 w-full py-5'>
       <div className='flex justify-around items-center w-[300px] h-[50px]'>
         {/* category */}
-        {Object.entries(link).map(([key, value]) => (
+        {link.map(([key, value]) => (
           <Link
             key={`chart ${key}`}
             to={value.link}
@@ -59,7 +64,7 @@ export default function ChartPage() {
       </div>
       {/* stack */}
       <ul className='flex gap-2'>
-        {Object.keys(stackCategory).map((each) => (
+        {stackKeys.map((each) => (
           <li
             key={`${each} in rank`}
             onClick={() => stackHandler(each)}
