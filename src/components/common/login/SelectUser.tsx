@@ -16,11 +16,7 @@ export default function SelectUser({ setExist }: ExistUser) {
 
   return (
     <React.Fragment>
-      <ExclamationTriangleIcon
-        width={30}
-        height={30}
-        className='text-yellow-400'
-      />
+      <ExclamationTriangleIcon width={30} height={30} className='text-yellow-400' />
       {/* user check - exist or new */}
       <div className='flex gap-5'>
         {['신규 유저', '기존 유저'].map((key) => (

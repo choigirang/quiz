@@ -14,7 +14,7 @@ import { quiz } from 'store/modules/quizSlice';
 export default function QuizPage() {
   const [data, setData] = useState<QuizData[]>();
   // move page when user direct page
-  const {} = useCheckUser('/quiz');
+  useCheckUser('/quiz');
   // selected stack
   const { stack } = useParams();
   // redux
