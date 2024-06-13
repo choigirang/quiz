@@ -1,4 +1,4 @@
-import React, { SetStateAction } from 'react';
+import React, { SetStateAction, useCallback, useMemo } from 'react';
 import ReactPaginate from 'react-paginate';
 
 type PageProps = {
@@ -9,7 +9,17 @@ type PageProps = {
 /** 24/06/09 - ranking pagination */
 export default function Pagination({ rankLeng, setPage }: PageProps) {
   const pagePerTotal = Math.ceil(rankLeng / 20);
-  const pageList = Array.from(Array(pagePerTotal), (_, idx) => idx + 1);
+
+  const pageList = useMemo(() => {
+    return Array.from(Array(pagePerTotal), (_, idx) => idx + 1);
+  }, [pagePerTotal]);
+
+  const handlePageChange = useCallback(
+    (selectedItem: { selected: number }) => {
+      setPage(selectedItem.selected + 1);
+    },
+    [setPage]
+  );
 
   return (
     <ReactPaginate
@@ -20,9 +30,7 @@ export default function Pagination({ rankLeng, setPage }: PageProps) {
       pageRangeDisplayed={5}
       previousLabel={null}
       nextLabel={null}
-      onPageChange={(e) => {
-        setPage(e.selected + 1);
-      }}
+      onPageChange={handlePageChange}
       breakLabel='...'
       pageCount={pageList.length}
     />
