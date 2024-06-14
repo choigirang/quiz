@@ -47,7 +47,7 @@ npm run start
 
 ### 반응형
 
-![20240208_010310](https://choigirang-portfolio.s3.ap-northeast-2.amazonaws.com/portfolioV2/portfolio-v2+2.gif)
+![quiz4](https://github.com/choigirang/quiz/assets/118104644/6dd2c7dc-e517-49d9-9321-5d4c352043ba)
 
 ## Git Commit & PR Message
 
