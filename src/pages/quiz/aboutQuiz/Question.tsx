@@ -1,7 +1,9 @@
 import React, { SetStateAction, useCallback, useEffect, useState } from 'react';
+import { useAppDispatch } from '../../../hooks/redux/useRedux';
+import useMobile from 'hooks/useMobile';
+
 import QuizResult from './QuizResult';
 
-import { useAppDispatch } from '../../../hooks/redux/useRedux';
 import { answer, resetQuiz } from '../../../store/modules/quizSlice';
 
 import { QuizData } from '../../../type/quiz';
@@ -17,6 +19,7 @@ export default function Question({ data, setData }: QuizProps) {
   const [curQuiz, setCurQuiz] = useState<QuizData>();
   // user selected
   const [selectedNum, setSelectedNum] = useState<number>(0);
+  const { isMobile } = useMobile();
   // quiz
   const dispatch = useAppDispatch();
 
@@ -61,7 +64,7 @@ export default function Question({ data, setData }: QuizProps) {
   if (!curQuiz) return <div>서버 에러입니다.</div>;
 
   return (
-    <ul className='flex flex-col gap-3 text-md'>
+    <ul className='flex flex-col gap-3 text-md h-full justify-center items-center'>
       {/* title */}
       <li className='font-black text-center'>Q : {curQuiz.title}</li>
       <li>
@@ -80,7 +83,7 @@ export default function Question({ data, setData }: QuizProps) {
       </li>
       {/* submit */}
       <li
-        className='max-w-[200px] px-2 py-1 border border-gray-200 rounded cursor-pointer text-center transition-default hover:bg-yellow-400 hover:text-white'
+        className='max-w-[200px] w-full px-2 py-1 border border-gray-200 rounded cursor-pointer text-center transition-default hover:bg-yellow-400 hover:text-white'
         onClick={nextQuiz}
       >
         제출

@@ -31,9 +31,9 @@ export default function Rank({ ranking, total, stack, page, setPage }: RankProps
   if (!rank) return <div>데이터를 불러오고 있습니다.</div>;
 
   return (
-    <main className='flex flex-col gap-3 h-full items-center'>
+    <main className='flex flex-col gap-3 w-full h-full items-center'>
       {/* ranking */}
-      <table className='w-[500px]'>
+      <table className='max-w-[500px]'>
         <thead>
           <tr>
             {['순위', '아이디', '점수'].map((each) => (

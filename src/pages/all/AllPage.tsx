@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { Route, Routes, useNavigate } from 'react-router-dom';
 import { useAppDispatch } from 'hooks/redux/useRedux';
+import useMobile from 'hooks/useMobile';
 
 import Enter from '../../components/quiz/Enter';
 import Data from './aboutData/Data';
@@ -12,6 +13,7 @@ import { selectSheet } from 'store/modules/sheetStackSlice';
 export default function AllPage() {
   const [stack, setStack] = useState<string | null>(null);
   const [displayWelcome, setDisplayWelcome] = useState(true);
+  const { isMobile } = useMobile();
 
   const navi = useNavigate();
 
@@ -37,19 +39,22 @@ export default function AllPage() {
   }, [stack]);
 
   return (
-    <section className='relative flex flex-col justify-center items-center w-full'>
+    <section className='relative flex flex-col justify-center items-center w-full h-full'>
       <Routes>
         <Route
           path='/'
           element={
             displayWelcome && (
-              <Enter category={stack} setCategory={setStack}>
+              <Enter category={stack} setCategory={setStack} isMobile={isMobile}>
                 <h2 className='text-xl font-black'>모아보기 할 데이터를 가져옵니다.</h2>
               </Enter>
             )
           }
         ></Route>
-        <Route path={`/:stack`} element={<Data stack={stack} resetHandle={resetHandle} />} />
+        <Route
+          path={`/:stack`}
+          element={<Data stack={stack} isMobile={isMobile} resetHandle={resetHandle} />}
+        />
       </Routes>
       {/* reset stack */}
       <ResetBtn name='all' setDisplay={setDisplayWelcome} setStack={setStack} />

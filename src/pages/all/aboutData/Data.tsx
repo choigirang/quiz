@@ -10,6 +10,7 @@ import { PlayIcon } from '@heroicons/react/24/outline';
 
 type DataProps = {
   stack: string | null;
+  isMobile: boolean;
   resetHandle: () => void;
 };
 
@@ -21,7 +22,7 @@ type DesData = {
 };
 
 /** 24/06/09 - get selected sheet data */
-export default function Data({ stack, resetHandle }: DataProps) {
+export default function Data({ stack, isMobile, resetHandle }: DataProps) {
   // title & des
   const [data, setData] = useState<DesData>();
   // click li
@@ -39,7 +40,7 @@ export default function Data({ stack, resetHandle }: DataProps) {
   // get data
   useEffect(() => {
     // user direct URL
-    if (!stack || !sheet) {
+    if (!stack && !sheet) {
       alert('잘못된 접근입니다.');
       return navi('/all');
     }
@@ -69,7 +70,7 @@ export default function Data({ stack, resetHandle }: DataProps) {
   if (!data) return <div>서버 오류입니다.</div>;
 
   return (
-    <ul className='flex flex-col w-full h-full p-20 gap-3'>
+    <ul className={`flex flex-col w-full h-full ${isMobile ? 'p-5' : 'p-20'} gap-3`}>
       {Object.keys(data).map((each) => {
         const selected = isClick === each;
         return (

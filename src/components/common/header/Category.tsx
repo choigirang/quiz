@@ -1,5 +1,6 @@
 import { useMemo } from 'react';
 import { Link, useLocation } from 'react-router-dom';
+import useMobile from 'hooks/useMobile';
 
 import { useAppSelector } from '../../../hooks/redux/useRedux';
 
@@ -13,6 +14,7 @@ const CATEGORY = {
 
 /** 2024/05/30 - category */
 export default function Category() {
+  const { isMobile } = useMobile();
   const path = useLocation().pathname;
   const { stack } = useAppSelector((state) => state.selectStackSlice);
   const { stack: sheet } = useAppSelector((state) => state.sheetStackSlice);
@@ -32,15 +34,8 @@ export default function Category() {
     [stack, sheet]
   );
 
-  const makeStyle = useMemo(
-    () => (link: string) => {
-      if (link === path || (link.startsWith('/quiz') && path === '/')) return true;
-    },
-    []
-  );
-
   return (
-    <ul className='flex flex-col mt-10 gap-10 text-sm'>
+    <ul className={`flex ${isMobile ? 'flex-row gap-5' : 'flex-col mt-10 gap-10'} text-sm`}>
       {/* category mapping */}
       {categoryEntries.map(([key, value]) => {
         // if login & selected stack && home page = seleted stack page
@@ -48,13 +43,23 @@ export default function Category() {
           <li key={key}>
             <Link to={createLink(value.link)} className='flex items-center gap-3'>
               {/* icon */}
-              <span
-                className={`p-1 ${makeStyle(value.link) ? 'bg-yellow-400' : 'bg-white'} rounded border`}
-              >
-                {value.icon}
-              </span>
+              {!isMobile && (
+                <span
+                  className={`p-1 ${path.startsWith(value.link) || (path === '/' && value.link.startsWith('/quiz')) ? 'bg-yellow-400' : 'bg-white'} rounded border`}
+                >
+                  {value.icon}
+                </span>
+              )}
               {/* link */}
-              <span className={makeStyle(value.link) ? 'font-black' : 'text-gray-500'}>{key}</span>
+              <span
+                className={
+                  path.startsWith(value.link) || (path === '/' && value.link.startsWith('/quiz'))
+                    ? 'font-black'
+                    : 'text-gray-500'
+                }
+              >
+                {key}
+              </span>
             </Link>
           </li>
         );

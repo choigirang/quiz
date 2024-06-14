@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useAppDispatch } from 'hooks/redux/useRedux';
+import useMobile from 'hooks/useMobile';
 
 import { logout } from 'store/modules/loginSlice';
 
@@ -8,6 +9,7 @@ import { UserIcon } from '@heroicons/react/24/outline';
 /** 24/06/10 - login user */
 export default function User({ id }: { id: string }) {
   const [isHover, setIsHover] = useState(false);
+  const { isMobile } = useMobile();
 
   const dispatch = useAppDispatch();
 
@@ -18,7 +20,7 @@ export default function User({ id }: { id: string }) {
 
   return (
     <div
-      className='flex justify-between items-center bg-defaultYellow px-1 py-1 text-defaultGreen rounded cursor-pointer'
+      className={`flex justify-between items-center ${isMobile ? 'w-[70px] text-xs' : ''} bg-defaultYellow px-1 py-1 text-defaultGreen rounded cursor-pointer`}
       onMouseEnter={() => setIsHover(true)}
       onMouseLeave={() => setIsHover(false)}
     >

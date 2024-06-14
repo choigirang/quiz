@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { Link, Route, Routes, useLocation } from 'react-router-dom';
 import useRank from '../../hooks/useApi/useRank';
+import useMobile from 'hooks/useMobile';
 
 import Rank from './rank/Rank';
 import Graph from './graph/Graph';
@@ -16,6 +17,7 @@ export default function ChartPage() {
   const [stack, setStack] = useState<string>('');
   // page
   const [page, setPage] = useState(1);
+  const { isMobile } = useMobile();
   const { data: rank, refetch } = useRank(page, stack);
   const path = useLocation().pathname;
 
@@ -27,19 +29,12 @@ export default function ChartPage() {
         setRanking(res.data?.ranking);
       });
     },
-    [refetch]
+    [stack]
   );
 
   useEffect(() => {
     setRanking(rank?.ranking);
-    if (rank?.stack) setStack(rank.stack);
   }, [rank]);
-
-  useEffect(() => {
-    refetch().then((res) => {
-      setRanking(res.data?.ranking);
-    });
-  }, [page]);
 
   const link = useMemo(
     () => Object.entries({ 랭킹: { link: '/chart' }, 그래프: { link: '/chart/graph' } }),
@@ -49,7 +44,9 @@ export default function ChartPage() {
   const stackKeys = useMemo(() => Object.keys(stackCategory), []);
 
   return (
-    <section className='flex flex-col justify-start items-center gap-1 w-full py-5'>
+    <section
+      className={`flex flex-col justify-start items-center w-full py-5 ${isMobile ? 'px-5 gap-5' : 'gap-1'}`}
+    >
       <div className='flex justify-around items-center w-[300px] h-[50px]'>
         {/* category */}
         {link.map(([key, value]) => (

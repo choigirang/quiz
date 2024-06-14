@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from 'hooks/redux/useRedux';
+import useMobile from 'hooks/useMobile';
 import useCheckUser from 'hooks/useCheckUser';
 
 import Question from './aboutQuiz/Question';
@@ -13,6 +14,7 @@ import { quiz } from 'store/modules/quizSlice';
 /** 24/06/02 - random quiz page */
 export default function QuizPage() {
   const [data, setData] = useState<QuizData[]>();
+  const { isMobile } = useMobile();
   // move page when user direct page
   useCheckUser('/quiz');
   // selected stack
@@ -63,7 +65,7 @@ export default function QuizPage() {
   }, [stack]);
 
   return (
-    <section className='w-full flex justify-center items-center'>
+    <section className='w-full h-full flex justify-center items-center'>
       {data ? (
         <Question data={data} setData={setData} />
       ) : (

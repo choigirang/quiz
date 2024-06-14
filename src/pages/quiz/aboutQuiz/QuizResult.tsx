@@ -67,7 +67,7 @@ export default function QuizResult({ data }: QuizResultProps) {
       </table>
       <div
         onClick={submitWithHome}
-        className='px-2 py-2 bg-yellow-400 text-white font-black rounded-sm hover:bg-yellow-500 transition-default'
+        className='px-2 py-2 bg-yellow-400 text-white font-black rounded-sm hover:bg-yellow-500 transition-default cursor-pointer'
       >
         메인으로 이동
       </div>

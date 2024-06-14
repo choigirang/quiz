@@ -1,4 +1,5 @@
 import { Route, Routes } from 'react-router-dom';
+import useMobile from 'hooks/useMobile';
 
 import WithProvider from './components/common/provider/WithProvider';
 import Header from './components/common/header/Header';
@@ -8,8 +9,10 @@ import AllPage from './pages/all/AllPage';
 import ChartPage from './pages/chart/ChartPage';
 
 function App() {
+  const { isMobile } = useMobile();
+
   return (
-    <div className='flex w-full'>
+    <div className={`flex w-full h-screen ${isMobile ? 'flex-col' : 'flex-row'}`}>
       <WithProvider>
         <Header />
         <Routes>

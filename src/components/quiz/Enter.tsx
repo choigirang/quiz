@@ -1,19 +1,18 @@
-import React, { SetStateAction, useState } from 'react';
+import { stackCategory } from '../../assets/quiz';
 
 import { SelectQuizCategory } from '../../type/quiz';
-
-import { stackCategory } from '../../assets/quiz';
 
 type EnterProps = {
   children: JSX.Element | null;
   category: string | null;
   setCategory: (e: string) => void;
+  isMobile: boolean;
 };
 
 /** 24/06/02 - select stack category */
-export default function Enter({ children, category, setCategory }: EnterProps) {
+export default function Enter({ children, category, setCategory, isMobile }: EnterProps) {
   return (
-    <section className='relative'>
+    <section className={`relative ${isMobile ? 'flex flex-col items-center' : ''}`}>
       <div className='flex flex-col justify-center items-center mb-5'>
         {children}
         {category ? (
@@ -23,7 +22,9 @@ export default function Enter({ children, category, setCategory }: EnterProps) {
         )}
       </div>
       {/* list */}
-      <ul className={`${!category ? 'grid grid-cols-5 gap-3' : 'none-style'}`}>
+      <ul
+        className={`${isMobile ? 'flex flex-col max-w-[150px] gap-3' : 'grid grid-cols-5 gap-3'}`}
+      >
         {Object.keys(stackCategory).map((each) => {
           const key = each as SelectQuizCategory;
           const isSelected = category === key;

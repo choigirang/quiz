@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../../hooks/redux/useRedux';
+import useMobile from 'hooks/useMobile';
 
 import Login from '../../components/common/login/Login';
 import Enter from '../../components/quiz/Enter';
@@ -9,6 +10,7 @@ import { selectStack } from '../../store/modules/quizStackSlice';
 
 /** 24/06/02 - /quiz page (login & select stack) */
 export default function SelectPage() {
+  const { isMobile } = useMobile();
   // select quiz
   const [stack, setStack] = useState<string | null>(null);
   const [displayWelcome, setDisplayWelcome] = useState(true);
@@ -37,10 +39,12 @@ export default function SelectPage() {
   };
 
   return (
-    <section className='flex flex-col justify-center items-center w-full'>
+    <section
+      className={`flex flex-col justify-center items-center w-full ${isMobile ? 'h-full' : ''}`}
+    >
       {!(user.code || user.id) && <Login />}
       {user.id && displayWelcome && (
-        <Enter category={stack} setCategory={handleStackSelect}>
+        <Enter category={stack} setCategory={handleStackSelect} isMobile={isMobile}>
           <h2 className='text-xl font-black'>환영합니다.</h2>
         </Enter>
       )}
