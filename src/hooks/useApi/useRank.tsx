@@ -1,4 +1,5 @@
 import { useQuery } from 'react-query';
+import useMobile from 'hooks/useMobile';
 
 import { collection, doc, getDoc, getDocs } from 'firebase/firestore';
 import { db } from '../../utils/api/firebase';
@@ -11,10 +12,15 @@ type GetData = {
   stack?: string;
 };
 
-async function getRank(page: number, stack: string | undefined): Promise<GetData> {
+async function getRank(
+  page: number,
+  stack: string | undefined,
+  isMobile: boolean
+): Promise<GetData> {
+  const dataNum = isMobile ? 10 : 20;
   // page with length (20)
-  const startIdx = (page - 1) * 20;
-  const endIdx = startIdx + 20;
+  const startIdx = (page - 1) * dataNum;
+  const endIdx = startIdx + dataNum;
 
   // if !select stack => set first doc id with doc data
   if (!stack) {
@@ -50,7 +56,11 @@ async function getRank(page: number, stack: string | undefined): Promise<GetData
 
 /** 24/06/08 - get rank data query hooks */
 export default function useRank(page = 1, stack: string | undefined) {
-  const { data, isLoading, isSuccess, refetch } = useQuery(['rank'], () => getRank(page, stack));
+  const { isMobile } = useMobile();
+
+  const { data, isLoading, isSuccess, refetch } = useQuery(['rank'], () =>
+    getRank(page, stack, isMobile)
+  );
 
   return { data, isLoading, isSuccess, refetch };
 }
