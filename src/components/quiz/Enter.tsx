@@ -1,3 +1,4 @@
+import React from 'react';
 import { stackCategory } from '../../assets/quiz';
 
 import { SelectQuizCategory } from '../../type/quiz';
@@ -10,7 +11,7 @@ type EnterProps = {
 };
 
 /** 24/06/02 - select stack category */
-export default function Enter({ children, category, setCategory, isMobile }: EnterProps) {
+function Enter({ children, category, setCategory, isMobile }: EnterProps) {
   return (
     <section className={`relative ${isMobile ? 'flex flex-col items-center' : ''}`}>
       <div className='flex flex-col justify-center items-center mb-5'>
@@ -50,3 +51,5 @@ export default function Enter({ children, category, setCategory, isMobile }: Ent
     </section>
   );
 }
+
+export default React.memo(Enter);

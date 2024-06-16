@@ -1,4 +1,4 @@
-import React, { SetStateAction, useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAppSelector } from 'hooks/redux/useRedux';
 
@@ -22,7 +22,7 @@ type DesData = {
 };
 
 /** 24/06/09 - get selected sheet data */
-export default function Data({ stack, isMobile, resetHandle }: DataProps) {
+function Data({ stack, isMobile, resetHandle }: DataProps) {
   // title & des
   const [data, setData] = useState<DesData>();
   // click li
@@ -99,3 +99,5 @@ export default function Data({ stack, isMobile, resetHandle }: DataProps) {
     </ul>
   );
 }
+
+export default React.memo(Data);
